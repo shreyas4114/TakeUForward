@@ -6,6 +6,7 @@ const db = mysql.createConnection({
     password: '',
     database: 'FlashQue'
   });
+// Add your root password
 
   db.connect((err) => {
     if (err) {
