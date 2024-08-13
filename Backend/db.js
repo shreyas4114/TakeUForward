@@ -1,9 +1,13 @@
 const mysql = require('mysql2');
+require('dotenv').config();
+const password = process.env.DB_PASSWORD;
+const user = process.env.USER;
 
+console.log(process.env.DB_PASSWORD);
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'Shreyas#0411',
+    user: user,
+    password: password,
     database: 'FlashQue'
   });
 

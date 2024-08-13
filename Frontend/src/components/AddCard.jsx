@@ -3,17 +3,20 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Flashcard.css';
 
+const base_url = import.meta.env.VITE_BASE_URL;
+
 function AddCard() {
+  
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    axios.post('http://localhost:8080/api/v1/admin/flashcards', { question, answer })
+    
+    axios.post(`${base_url}:8080/api/v1/admin/flashcards`, { question, answer })
       .then(response => {
-        alert('Flashcard added successfully');
+        alert('Flashcard added successfully');  
         navigate('/admin'); // Navigate back to admin page or wherever you want
       })
       .catch(error => {

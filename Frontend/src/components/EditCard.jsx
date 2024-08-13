@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+const base_url = import.meta.env.VITE_BASE_URL;
+
 function EditCard() {
   const [flashcard, setFlashcard] = useState({ question: '', answer: '' });
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ function EditCard() {
   console.log(flashcardId);
   useEffect(() => {
     // Fetch the flashcard details using the ID from the URL query parameters
-    axios.get(`http://localhost:8080/api/v1/admin/flashcards/${flashcardId}`)
+    axios.get(`${base_url}:8080/api/v1/admin/flashcards/${flashcardId}`)
       .then(response => setFlashcard(response.data))
       .catch(error => console.error('Error fetching flashcard:', error));
   }, [flashcardId]);
@@ -24,7 +26,7 @@ function EditCard() {
 
   const handleSave = () => {
     // Send the updated flashcard data to the server
-    axios.put(`http://localhost:8080/api/v1/admin/flashcards/${flashcardId}`, flashcard)
+    axios.put(`${base_url}:8080/api/v1/admin/flashcards/${flashcardId}`, flashcard)
       .then(() => {
         navigate('/admin'); // Navigate back to the main page or flashcard list
       })

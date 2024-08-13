@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Flashcard.css';
 
+const base_url = import.meta.env.VITE_BASE_URL;
+
 function FlashcardList() {
   const [flashcards, setFlashcards] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -10,7 +12,7 @@ function FlashcardList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/user/flashcards')
+    axios.get(`${base_url}:8080/api/v1/user/flashcards`)
       .then(response => setFlashcards(response.data))
       .catch(error => console.error('Error fetching flashcards:', error));
   }, []);
@@ -29,9 +31,6 @@ function FlashcardList() {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + flashcards.length) % flashcards.length);
   };
 
-  if (flashcards.length === 0) {
-    return <div>Loading flashcards...</div>;
-  }
 
   return (
     <div className="relative h-screen flex items-center justify-center">
@@ -41,21 +40,24 @@ function FlashcardList() {
       >
         Admin
       </button>
-
       <div className="flex flex-col items-center">
-        <div
-          className={`flip-container rounded-xl overflow-hidden shadow-xl cursor-pointer w-[500px] h-[400px] ${flipped ? 'flipped' : ''}`}
-          onClick={handleFlip}
-        >
-          <div className="flipper">
-            <div className="front bg-gradient-to-r from-cyan-500 to-blue-500">
-              {flashcards[currentIndex].question}
-            </div>
-            <div className="back bg-gradient-to-r from-yellow-100 to-green-300">
-              {flashcards[currentIndex].answer}
+        {flashcards.length === 0 ? (
+          <div>No Questions available</div>
+        ) : (
+          <div
+            className={`flip-container rounded-xl overflow-hidden shadow-xl cursor-pointer w-[500px] h-[400px] ${flipped ? 'flipped' : ''}`}
+            onClick={handleFlip}
+          >
+            <div className="flipper">
+              <div className="front bg-gradient-to-r from-cyan-500 to-blue-500">
+                {flashcards[currentIndex].question}
+              </div>
+              <div className="back bg-gradient-to-r from-yellow-100 to-green-300">
+                {flashcards[currentIndex].answer}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="absolute bottom-4 flex justify-between w-full px-4">
           <button
